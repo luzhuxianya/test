@@ -68,7 +68,7 @@ void parseGpsBuffer()
 		printf(Save_Data.GPS_Buffer);
 
 		
-		for (i = 0 ; i <= 6 ; i++)
+		for (i = 0 ; i <= 9 ; i++)
 		{
 			if (i == 0)
 			{
@@ -89,6 +89,7 @@ void parseGpsBuffer()
 						case 4:memcpy(Save_Data.N_S, subString, subStringNext - subString);break;	//获取N/S
 						case 5:memcpy(Save_Data.longitude, subString, subStringNext - subString);break;	//获取经度信息
 						case 6:memcpy(Save_Data.E_W, subString, subStringNext - subString);break;	//获取E/W
+						case 9: memcpy(Save_Data.UTCDate, subString, subStringNext - subString); break;
 
 						default:break;
 					}
