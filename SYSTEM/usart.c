@@ -24,7 +24,7 @@ struct __FILE
 
 FILE __stdout;       
 //定义_sys_exit()以避免使用半主机模式    
-_sys_exit(int x) 
+void _sys_exit(int x) 
 { 
 	x = x; 
 } 
@@ -203,6 +203,35 @@ void clrStruct()
 	memset(Save_Data.longitude, 0, longitude_Length);
 	memset(Save_Data.E_W, 0, E_W_Length);
 	
+}
+
+void uart2_init(u32 bound) {
+    GPIO_InitTypeDef GPIO_InitStructure;
+    USART_InitTypeDef USART_InitStructure;
+    
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); // USART2?PA2/PA3
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+    
+    // PA2: TX (??,???NC)
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    
+    // PA3: RX (????)
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    
+    USART_InitStructure.USART_BaudRate = bound; // 9600
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    USART_InitStructure.USART_StopBits = USART_StopBits_1;
+    USART_InitStructure.USART_Parity = USART_Parity_No;
+    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+    USART_Init(USART2, &USART_InitStructure);
+    
+    USART_Cmd(USART2, ENABLE);
 }
 
 #endif	

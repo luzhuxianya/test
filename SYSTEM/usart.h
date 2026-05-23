@@ -46,6 +46,7 @@ typedef struct SaveData
 	char longitude[longitude_Length];		//经度
 	char E_W[E_W_Length];		//E/W
 	char isUsefull;		//定位信息是否有效
+	char UTCDate[7];
 } _SaveData;
 
 
