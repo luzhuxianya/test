@@ -19,6 +19,8 @@
 #include "ds18b20.h"  // 温度传感器
 #include "flash.h"    // Flash存储
 #include "usart.h"
+#include "gps.h"
+#include "sun.h"  
 
 /********************宏定义***************************/
 // 垂直舵机角度限制
@@ -76,6 +78,8 @@ float Volat;
 // 定义一个无符号16位整数变量Temp，用于存储温度值
 u16 Temp;
 
+_Bool TrackMode = 0; // 0: guanggan, 1:tianwen 
+
 /********************函数声明****************************/
 // 按键处理函数
 void Key_Proc(void);
@@ -119,6 +123,7 @@ int main(void)
 	TIM4_Init(TIM4_PERIOD, TIM4_PRESCALE);  // 初始化定时器4，用于定时任务
 	Read_Flash_Data();    // 读取掉电保存的数据(灵敏度设置)
 	Dis_Dat();            // 初始化显示界面
+	uart2_init(9600);     // GPS
 
 	// 将两个舵机设置到中心位置
 	Servo1_SetAngle(SERVO_CENTER);  // 设置水平舵机角度
